@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { Counter } from "./counter/counter";
 
 @Component({
@@ -6,5 +6,6 @@ import { Counter } from "./counter/counter";
   imports: [Counter],
   templateUrl: "./app.html",
   styleUrl: "./app.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {}
