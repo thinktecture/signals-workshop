@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 
 let id = 1;
 
@@ -21,6 +21,7 @@ const nthColor = colorPicker([
   imports: [CommonModule],
   templateUrl: "./counter.component.html",
   styleUrls: ["./counter.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CounterComponent {
   private readonly storageKey = `counter${id++}`;
