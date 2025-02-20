@@ -1,7 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, computed, effect, signal } from "@angular/core";
-
-let id = 1;
+import { Component, computed, effect, input, signal } from "@angular/core";
 
 function colorPicker(colors: string[]): (n: number) => string {
   const numColors = colors.length;
@@ -23,21 +21,24 @@ const nthColor = colorPicker([
   styleUrls: ["./counter.component.scss"],
 })
 export class CounterComponent {
-  private readonly storageKey = `counter${id++}`;
+  readonly storageKey = input.required<string>();
 
-  private readonly restored = Number(sessionStorage.getItem(this.storageKey));
-
-  protected readonly counter = signal(this.restored || 0);
+  protected readonly counter = signal(0);
 
   protected readonly color = computed(() => {
-    console.log("running", this.storageKey);
+    console.log("running", this.storageKey());
     return nthColor(this.counter());
   });
 
   constructor() {
     effect(() => {
-      sessionStorage.setItem(this.storageKey, String(this.counter()));
-      console.log("persisted", this.storageKey);
+      console.log("restoring", this.storageKey());
+      this.counter.set(Number(sessionStorage.getItem(this.storageKey())));
+    });
+
+    effect(() => {
+      sessionStorage.setItem(this.storageKey(), String(this.counter()));
+      console.log("persisted", this.storageKey());
     });
   }
 
