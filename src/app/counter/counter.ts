@@ -1,4 +1,10 @@
-import { Component, computed, effect, input, signal } from "@angular/core";
+import {
+  Component,
+  computed,
+  effect,
+  input,
+  linkedSignal,
+} from "@angular/core";
 
 function colorPicker(colors: string[]): (n: number) => string {
   const numColors = colors.length;
@@ -22,7 +28,10 @@ const nthColor = colorPicker([
 export class Counter {
   readonly storageKey = input.required<string>();
 
-  protected readonly counter = signal(0);
+  protected readonly counter = linkedSignal(() => {
+    console.log("restoring", this.storageKey());
+    return Number(sessionStorage.getItem(this.storageKey()));
+  });
 
   protected readonly color = computed(() => {
     console.log("running", this.storageKey());
@@ -30,11 +39,6 @@ export class Counter {
   });
 
   constructor() {
-    effect(() => {
-      console.log("restoring", this.storageKey());
-      this.counter.set(Number(sessionStorage.getItem(this.storageKey())));
-    });
-
     effect(() => {
       sessionStorage.setItem(this.storageKey(), String(this.counter()));
       console.log("persisted", this.storageKey());
