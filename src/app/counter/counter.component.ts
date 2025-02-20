@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { Component, computed, effect, signal } from "@angular/core";
 
 let id = 1;
 
@@ -21,32 +21,31 @@ const nthColor = colorPicker([
   imports: [CommonModule],
   templateUrl: "./counter.component.html",
   styleUrls: ["./counter.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CounterComponent {
   private readonly storageKey = `counter${id++}`;
 
   private readonly restored = Number(sessionStorage.getItem(this.storageKey));
 
-  protected counter = this.restored || 0;
+  protected readonly counter = signal(this.restored || 0);
 
-  protected color(): string {
+  protected readonly color = computed(() => {
     console.log("running", this.storageKey);
-    return nthColor(this.counter);
+    return nthColor(this.counter());
+  });
+
+  constructor() {
+    effect(() => {
+      sessionStorage.setItem(this.storageKey, String(this.counter()));
+      console.log("persisted", this.storageKey);
+    });
   }
 
   protected increment(): void {
-    this.counter = this.counter + 1;
-    this.persist();
+    this.counter.update((counter) => counter + 1);
   }
 
   protected reset(): void {
-    this.counter = 0;
-    this.persist();
-  }
-
-  private persist(): void {
-    sessionStorage.setItem(this.storageKey, String(this.counter));
-    console.log("persisted", this.storageKey);
+    this.counter.set(0);
   }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { Component } from "@angular/core";
 import { CounterComponent } from "./counter/counter.component";
 
 @Component({
@@ -6,6 +6,5 @@ import { CounterComponent } from "./counter/counter.component";
   imports: [CounterComponent],
   templateUrl: "app.component.html",
   styleUrl: "app.component.scss",
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {}
