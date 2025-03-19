@@ -1,4 +1,5 @@
-import { Component, computed, linkedSignal, resource } from "@angular/core";
+import { httpResource } from "@angular/common/http";
+import { Component, computed, linkedSignal } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 
 interface Page<T> {
@@ -50,14 +51,9 @@ interface PokemonDetails {
   styleUrl: "./pokemon.scss",
 })
 export class Pokemon {
-  protected readonly generations = resource<Page<NamedResource>, void>({
-    loader: async ({ abortSignal }) => {
-      const response = await fetch(`https://pokeapi.co/api/v2/generation`, {
-        signal: abortSignal,
-      });
-      return response.json();
-    },
-  });
+  protected readonly generations = httpResource<Page<NamedResource>>(
+    () => "https://pokeapi.co/api/v2/generation",
+  );
 
   protected readonly generationNames = computed(() =>
     this.generations.value()?.results.map(({ name }) => name),
@@ -77,20 +73,13 @@ export class Pokemon {
     },
   });
 
-  protected readonly generationDetails = resource<
-    GenerationDetails,
-    string | undefined
-  >({
-    params: () =>
+  protected readonly generationDetails = httpResource<GenerationDetails>(
+    () =>
       this.generations
         .value()
         ?.results.find(({ name }) => name === this.selectedGenerationName())
         ?.url,
-    loader: async ({ params, abortSignal }) => {
-      const response = await fetch(params, { signal: abortSignal });
-      return response.json();
-    },
-  });
+  );
 
   protected readonly speciesNames = computed(() =>
     this.generationDetails.value()?.pokemon_species.map(({ name }) => name),
@@ -110,21 +99,14 @@ export class Pokemon {
     },
   });
 
-  protected readonly speciesDetails = resource<
-    SpeciesDetails,
-    string | undefined
-  >({
-    params: () =>
+  protected readonly speciesDetails = httpResource<SpeciesDetails>(
+    () =>
       this.generationDetails
         .value()
         ?.pokemon_species.find(
           ({ name }) => name === this.selectedSpeciesName(),
         )?.url,
-    loader: async ({ params, abortSignal }) => {
-      const response = await fetch(params, { signal: abortSignal });
-      return response.json();
-    },
-  });
+  );
 
   protected readonly pokemonNames = computed(() =>
     this.speciesDetails.value()?.varieties.map(({ pokemon: { name } }) => name),
@@ -144,18 +126,11 @@ export class Pokemon {
     },
   });
 
-  protected readonly pokemonDetails = resource<
-    PokemonDetails,
-    string | undefined
-  >({
-    params: () =>
+  protected readonly pokemonDetails = httpResource<PokemonDetails>(
+    () =>
       this.speciesDetails
         .value()
         ?.varieties.map(({ pokemon }) => pokemon)
         .find(({ name }) => name === this.selectedPokemonName())?.url,
-    loader: async ({ params, abortSignal }) => {
-      const response = await fetch(params, { signal: abortSignal });
-      return response.json();
-    },
-  });
+  );
 }
