@@ -46,25 +46,25 @@ export class App {
   protected readonly counter2 = createCounter("counter2");
   protected readonly counter3 = createCounter("counter3");
 
-  private persist1?: EffectRef;
-  private persist2?: EffectRef;
-  private persist3?: EffectRef;
-
   private readonly injector = inject(Injector);
 
   constructor() {
-    effect(() => {
-      if (this.persist()) {
-        untracked(() => {
-          this.persist1 = persist(this.counter1, "counter1", this.injector);
-          this.persist2 = persist(this.counter2, "counter2", this.injector);
-          this.persist3 = persist(this.counter3, "counter3", this.injector);
-        });
-      } else {
-        this.persist1?.destroy();
-        this.persist2?.destroy();
-        this.persist3?.destroy();
+    effect((onCleanup) => {
+      if (!this.persist()) {
+        return;
       }
+
+      untracked(() => {
+        const persist1 = persist(this.counter1, "counter1", this.injector);
+        const persist2 = persist(this.counter2, "counter2", this.injector);
+        const persist3 = persist(this.counter3, "counter3", this.injector);
+
+        onCleanup(() => {
+          persist1.destroy();
+          persist2.destroy();
+          persist3.destroy();
+        });
+      });
     });
   }
 }
