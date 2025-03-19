@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
-import { CounterComponent } from "./counter/counter.component";
+import { PokemonComponent } from "./pokemon/pokemon.component";
 
 @Component({
   selector: "app-root",
-  imports: [CounterComponent],
+  imports: [PokemonComponent],
   templateUrl: "app.component.html",
   styleUrl: "app.component.scss",
 })

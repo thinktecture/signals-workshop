@@ -1,0 +1,60 @@
+<button (click)="generations.reload()">Reload generations</button>
+
+@if (generations.error(); as error) {
+  <p>{{ error }}</p>
+}
+
+@if (generationNames(); as names) {
+  <label>
+    Generation:
+    <select [(ngModel)]="selectedGenerationName">
+      @for (name of names; track name) {
+        <option>{{ name }}</option>
+      }
+    </select>
+  </label>
+}
+
+<button (click)="generationDetails.reload()">Reload generation details</button>
+
+@if (generationDetails.error(); as error) {
+  <p>{{ error }}</p>
+}
+
+@if (speciesNames(); as names) {
+  <label>
+    Species:
+    <select [(ngModel)]="selectedSpeciesName">
+      @for (name of names; track name) {
+        <option>{{ name }}</option>
+      }
+    </select>
+  </label>
+}
+
+<button (click)="speciesDetails.reload()">Reload species details</button>
+
+@if (speciesDetails.error(); as error) {
+  <p>{{ error }}</p>
+}
+
+@if (pokemonNames(); as names) {
+  <label>
+    Varieties:
+    <select [(ngModel)]="selectedPokemonName">
+      @for (name of names; track name) {
+        <option>{{ name }}</option>
+      }
+    </select>
+  </label>
+}
+
+<button (click)="pokemonDetails.reload()">Reload pokemon details</button>
+
+@if (pokemonDetails.error(); as error) {
+  <p>{{ error }}</p>
+}
+
+@if (pokemonDetails.value(); as details) {
+  <img [src]="details.sprites.front_default" />
+}
