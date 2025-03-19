@@ -1,3 +1,10 @@
-<app-counter [(counter)]="counter1" />
-<app-counter [(counter)]="counter2" />
-<app-counter [(counter)]="counter3" />
+<label>
+  <input type="checkbox" [(ngModel)]="persist" />
+  Persist
+</label>
+
+<div class="counters">
+  <app-counter [(counter)]="counter1" />
+  <app-counter [(counter)]="counter2" />
+  <app-counter [(counter)]="counter3" />
+</div>
