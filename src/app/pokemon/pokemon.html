@@ -1,0 +1,14 @@
+<div class="controls-section">
+  @if (generationNames(); as names) {
+    <label>
+      Generation:
+      <select>
+        @for (name of names; track name) {
+          <option>{{ name }}</option>
+        }
+      </select>
+    </label>
+  }
+
+  <button (click)="loadGenerations()">Reload generations</button>
+</div>

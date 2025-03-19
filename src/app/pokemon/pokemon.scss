@@ -1,0 +1,103 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.controls-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem;
+  width: 40rem;
+  border-radius: 12px;
+  border: 2px solid #e0e0e0;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 1rem;
+}
+
+select {
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #ffffff;
+  color: #2c3e50;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #ffcb05;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #3b4cca;
+  }
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #3b4cca 0%, #2c3e94 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+}
+
+.error-message {
+  background-color: #fee;
+  color: #c33;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.pokemon-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 40rem;
+}
+
+.pokemon-image-container {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 100%;
+}
+
+img {
+  height: auto;
+  image-rendering: pixelated;
+}
+
+.pokemon-name {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
