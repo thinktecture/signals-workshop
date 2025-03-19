@@ -1,7 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
-
-let id = 1;
+import { Component, computed, model } from "@angular/core";
 
 function colorPicker(colors: string[]): (n: number) => string {
   const numColors = colors.length;
@@ -23,29 +21,18 @@ const nthColor = colorPicker([
   styleUrls: ["./counter.component.scss"],
 })
 export class CounterComponent {
-  private readonly storageKey = `counter${id++}`;
+  public readonly counter = model.required<number>();
 
-  private readonly restored = Number(sessionStorage.getItem(this.storageKey));
-
-  protected counter = this.restored || 0;
-
-  protected color(): string {
-    console.log("running", this.storageKey);
-    return nthColor(this.counter);
-  }
+  protected readonly color = computed(() => {
+    console.log("running");
+    return nthColor(this.counter());
+  });
 
   protected increment(): void {
-    this.counter = this.counter + 1;
-    this.persist();
+    this.counter.update((counter) => counter + 1);
   }
 
   protected reset(): void {
-    this.counter = 0;
-    this.persist();
-  }
-
-  private persist(): void {
-    sessionStorage.setItem(this.storageKey, String(this.counter));
-    console.log("persisted", this.storageKey);
+    this.counter.set(0);
   }
 }
