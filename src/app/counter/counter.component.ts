@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 
 let id = 1;
@@ -18,7 +17,7 @@ const nthColor = colorPicker([
 
 @Component({
   selector: "app-counter",
-  imports: [CommonModule],
+  imports: [],
   templateUrl: "./counter.component.html",
   styleUrls: ["./counter.component.scss"],
 })
