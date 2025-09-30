@@ -18,10 +18,10 @@ const nthColor = colorPicker([
 @Component({
   selector: "app-counter",
   imports: [],
-  templateUrl: "./counter.component.html",
-  styleUrls: ["./counter.component.scss"],
+  templateUrl: "./counter.html",
+  styleUrls: ["./counter.scss"],
 })
-export class CounterComponent {
+export class Counter {
   private readonly storageKey = `counter${id++}`;
 
   private readonly restored = Number(sessionStorage.getItem(this.storageKey));
