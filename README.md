@@ -21,4 +21,5 @@ Read more about signals at <https://angular.dev/guide/signals>.
 - `main`: counter example without signals
 - `signals`: counter example with signals
 - `signals-with-dumb-counter`: counter example with signals and dumb counter component
-- `resource`: example for the resource API
+- `pokemon`: Pokemon example for the `resource` / `httpResource` API
+- `signal-forms`: user profile example for signal forms in Angular 21
