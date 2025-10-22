@@ -5,12 +5,56 @@
   @if (generationNames(); as names) {
     <label>
       Generation:
-      <select>
+      <select [(ngModel)]="selectedGenerationName">
         @for (name of names; track name) {
           <option>{{ name }}</option>
         }
       </select>
     </label>
   }
-  <button (click)="generations.reload()">Reload generations</button>
+  <button (click)="generations.reload()">Reload Generations</button>
+
+  @if (generationDetails.error(); as error) {
+    <div class="error-message">{{ error.message }}</div>
+  }
+  @if (speciesNames(); as names) {
+    <label>
+      Species:
+      <select [(ngModel)]="selectedSpeciesName">
+        @for (name of names; track name) {
+          <option>{{ name }}</option>
+        }
+      </select>
+    </label>
+  }
+  <button (click)="generationDetails.reload()">Reload Generation Details</button>
+
+  @if (speciesDetails.error(); as error) {
+    <div class="error-message">{{ error.message }}</div>
+  }
+  @if (pokemonNames(); as names) {
+    <label>
+      Varieties:
+      <select [(ngModel)]="selectedPokemonName">
+        @for (name of names; track name) {
+          <option>{{ name }}</option>
+        }
+      </select>
+    </label>
+  }
+  <button (click)="speciesDetails.reload()">Reload Species Details</button>
+
+  <button (click)="pokemonDetails.reload()">Reload Pokemon Details</button>
+</div>
+
+<div class="pokemon-card">
+  @if (pokemonDetails.error(); as error) {
+    <div class="error-message">{{ error.message }}</div>
+  }
+  @if (pokemonDetails.value(); as details) {
+    <div class="pokemon-name">{{ selectedPokemonName() }}</div>
+    <div class="pokemon-image-container">
+      <img [src]="details.sprites.front_default" [alt]="selectedPokemonName()" />
+    </div>
+  }
 </div>
