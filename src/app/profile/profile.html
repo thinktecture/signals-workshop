@@ -1,0 +1,43 @@
+<form>
+  <h2>Profile</h2>
+  <div class="form-field">
+    <label for="firstName">First Name *</label>
+    <input
+      id="firstName"
+      [formField]="personForm.firstName"
+      [class.invalid]="!personForm.firstName().valid()"
+    />
+
+    @if (personForm.firstName().touched() && !personForm.firstName().valid()) {
+      <div class="error-message">
+        {{ personForm.firstName().errors()[0].message }}
+      </div>
+    }
+  </div>
+
+  <div class="form-field">
+    <label for="lastName">Last Name *</label>
+    <input
+      id="lastName"
+      type="text"
+      [formField]="personForm.lastName"
+      [class.invalid]="!personForm.lastName().valid()"
+    />
+
+    @if (personForm.lastName().touched() && !personForm.lastName().valid()) {
+      <div class="error-message">
+        <div class="error-message">
+          {{ personForm.lastName().errors()[0].message }}
+        </div>
+      </div>
+    }
+  </div>
+
+  <button type="submit" [disabled]="!personForm().valid()">Save</button>
+
+  <div class="debug-info">
+    <pre>Valid: {{ personForm().valid() }}</pre>
+    <pre>First Name: {{ personModel().firstName }}</pre>
+    <pre>Last Name: {{ personModel().lastName }}</pre>
+  </div>
+</form>

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { Counter } from './counter/counter';
+import { Profile } from './profile/profile';
 
 @Component({
   selector: 'app-root',
-  imports: [Counter],
+  imports: [Profile],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
