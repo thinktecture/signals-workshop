@@ -1,4 +1,7 @@
 <div class="controls-section">
+  @if (generations.error(); as error) {
+    <div class="error-message">{{ error.message }}</div>
+  }
   @if (generationNames(); as names) {
     <label>
       Generation:
@@ -9,6 +12,5 @@
       </select>
     </label>
   }
-
-  <button (click)="loadGenerations()">Reload generations</button>
+  <button (click)="generations.reload()">Reload generations</button>
 </div>
