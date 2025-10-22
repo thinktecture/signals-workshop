@@ -1,4 +1,5 @@
-import { Component, computed, resource } from '@angular/core';
+import { httpResource } from '@angular/common/http';
+import { Component, computed } from '@angular/core';
 import { NamedResource, Page } from './pokemon-types';
 
 @Component({
@@ -8,14 +9,9 @@ import { NamedResource, Page } from './pokemon-types';
   styleUrl: './pokemon.scss',
 })
 export class Pokemon {
-  protected readonly generations = resource<Page<NamedResource>, void>({
-    loader: async ({ abortSignal }) => {
-      const response = await fetch(`https://pokeapi.co/api/v2/generation`, {
-        signal: abortSignal,
-      });
-      return response.json();
-    },
-  });
+  protected readonly generations = httpResource<Page<NamedResource>>(
+    () => 'https://pokeapi.co/api/v2/generation',
+  );
 
   protected readonly generationNames = computed(() =>
     this.generations.value()?.results.map(({ name }) => name),
