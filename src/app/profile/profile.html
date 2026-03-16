@@ -1,4 +1,4 @@
-<form>
+<form (submit)="submit($event)">
   <h2>Profile</h2>
   <div class="form-field">
     <label for="firstName">First Name *</label>
@@ -8,7 +8,9 @@
       [class.invalid]="!personForm.firstName().valid()"
     />
 
-    @if (personForm.firstName().touched() && !personForm.firstName().valid()) {
+    @if (personForm.firstName().pending()) {
+      <div class="pending-message">Validating...</div>
+    } @else if (personForm.firstName().touched() && !personForm.firstName().valid()) {
       <div class="error-message">
         {{ personForm.firstName().errors()[0].message }}
       </div>
@@ -24,20 +26,81 @@
       [class.invalid]="!personForm.lastName().valid()"
     />
 
-    @if (personForm.lastName().touched() && !personForm.lastName().valid()) {
+    @if (personForm.lastName().pending()) {
+      <div class="pending-message">Validating...</div>
+    } @else if (personForm.lastName().touched() && !personForm.lastName().valid()) {
       <div class="error-message">
-        <div class="error-message">
-          {{ personForm.lastName().errors()[0].message }}
-        </div>
+        {{ personForm.lastName().errors()[0].message }}
       </div>
     }
   </div>
 
-  <button type="submit" [disabled]="!personForm().valid()">Save</button>
+  <div class="form-field">
+    <label for="username">Username *</label>
+    <input
+      id="username"
+      [formField]="personForm.username"
+      [class.invalid]="!personForm.username().valid()"
+    />
+
+    @if (personForm.username().pending()) {
+      <div class="pending-message">Checking availability...</div>
+    } @else if (personForm.username().touched() && !personForm.username().valid()) {
+      <div class="error-message">
+        {{ personForm.username().errors()[0].message }}
+      </div>
+    }
+  </div>
+
+  <button type="submit" [disabled]="!personForm().valid() || personForm().pending()">
+    @if (personForm().submitting()) {
+      Saving...
+    } @else {
+      Save
+    }
+  </button>
 
   <div class="debug-info">
-    <pre>Valid: {{ personForm().valid() }}</pre>
-    <pre>First Name: {{ personModel().firstName }}</pre>
-    <pre>Last Name: {{ personModel().lastName }}</pre>
+    <table>
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Dirty</th>
+          <th>Valid</th>
+          <th>Pending</th>
+          <th>Submitting</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>firstName</td>
+          <td>{{ personForm.firstName().dirty() ? '✔' : '✘' }}</td>
+          <td>{{ personForm.firstName().valid() ? '✔' : '✘' }}</td>
+          <td>{{ personForm.firstName().pending() ? '✔' : '✘' }}</td>
+          <td>{{ personForm.firstName().submitting() ? '✔' : '✘' }}</td>
+        </tr>
+        <tr>
+          <td>lastName</td>
+          <td>{{ personForm.lastName().dirty() ? '✔' : '✘' }}</td>
+          <td>{{ personForm.lastName().valid() ? '✔' : '✘' }}</td>
+          <td>{{ personForm.lastName().pending() ? '✔' : '✘' }}</td>
+          <td>{{ personForm.lastName().submitting() ? '✔' : '✘' }}</td>
+        </tr>
+        <tr>
+          <td>username</td>
+          <td>{{ personForm.username().dirty() ? '✔' : '✘' }}</td>
+          <td>{{ personForm.username().valid() ? '✔' : '✘' }}</td>
+          <td>{{ personForm.username().pending() ? '✔' : '✘' }}</td>
+          <td>{{ personForm.username().submitting() ? '✔' : '✘' }}</td>
+        </tr>
+        <tr>
+          <td><strong>form</strong></td>
+          <td>{{ personForm().dirty() ? '✔' : '✘' }}</td>
+          <td>{{ personForm().valid() ? '✔' : '✘' }}</td>
+          <td>{{ personForm().pending() ? '✔' : '✘' }}</td>
+          <td>{{ personForm().submitting() ? '✔' : '✘' }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </form>
