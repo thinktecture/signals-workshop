@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
 let id = 1;
 
@@ -7,19 +7,13 @@ function colorPicker(colors: string[]): (n: number) => string {
   return (n) => colors[n % numColors];
 }
 
-const nthColor = colorPicker([
-  "#d98324",
-  "#a40606",
-  "#0f4c5c",
-  "#6c9a8b",
-  "#c1d7ae",
-]);
+const nthColor = colorPicker(['#d98324', '#a40606', '#0f4c5c', '#6c9a8b', '#c1d7ae']);
 
 @Component({
-  selector: "app-counter",
+  selector: 'app-counter',
   imports: [],
-  templateUrl: "./counter.html",
-  styleUrls: ["./counter.scss"],
+  templateUrl: './counter.html',
+  styleUrls: ['./counter.scss'],
 })
 export class Counter {
   private readonly storageKey = `counter${id++}`;
@@ -29,7 +23,7 @@ export class Counter {
   protected counter = this.restored || 0;
 
   protected color(): string {
-    console.log("running", this.storageKey);
+    console.log('running', this.storageKey);
     return nthColor(this.counter);
   }
 
@@ -45,6 +39,6 @@ export class Counter {
 
   private persist(): void {
     sessionStorage.setItem(this.storageKey, String(this.counter));
-    console.log("persisted", this.storageKey);
+    console.log('persisted', this.storageKey);
   }
 }
